@@ -38,12 +38,11 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog='GeminiApiCall',
-        description='Calls Gemini API providing text to summarise',
-        epilog='Development version, will be changed')
+        description='Calls Gemini API providing text to summarise',)
     group = parser.add_mutually_exclusive_group(required=True)
     
-    group.add_argument("-p", "--pdf", help="PDF file to summarise") #if pdf file is not in the same folder as script full path needs to be provided
-    group.add_argument("-t", "--text", help="Text to summarise")
+    group.add_argument("-p", "--pdf", help="PDF file to summarise, if pdf file is not in the same folder as script full path needs to be provided")
+    group.add_argument("-t", "--text", help="Plain text to summarise")
 
     args = parser.parse_args()
 
@@ -53,7 +52,7 @@ def main():
         path = args.pdf
         if ".pdf" not in path:
             path = path + ".pdf"
-        user_content = extract_text_from_pdf(args.pdf)
+        user_content = extract_text_from_pdf(path)
     elif args.text:
         user_content = args.text
 
@@ -73,7 +72,7 @@ def main():
         )
         
         print("\n" + "="*40)
-        print("💎 ODPOWIEDŹ GEMINI:")
+        print("Response: ")
         print("="*40)
 
         print(response.text)
@@ -81,9 +80,6 @@ def main():
 
     except Exception as e:
         print(f"API error: {e}")
-
-
-    print("V0.1.1")
 
 
 if __name__ == "__main__":
